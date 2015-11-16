@@ -8,5 +8,6 @@ namespace TryKatana
 {
     public class Greeting
     {
+        public string Text { get; set; }
     }
 }

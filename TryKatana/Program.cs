@@ -9,21 +9,23 @@ using System.Threading.Tasks;
 
 namespace TryKatana
 {
+    using System.Web.Http;
     using AppFunc = Func<IDictionary<string, object>, Task>;
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            string uri = "http://localhost:8080";
 
-            using (WebApp.Start<Startup>(uri))
-            {
-                Console.WriteLine("Started!");
-                Console.ReadKey();
-                Console.WriteLine("Stopping!");
-            }
-        }
-    }
+    //class Program
+    //{
+    //    static void Main(string[] args)
+    //    {
+    //        string uri = "http://localhost:8080";
+
+    //        using (WebApp.Start<Startup>(uri))
+    //        {
+    //            Console.WriteLine("Started!");
+    //            Console.ReadKey();
+    //            Console.WriteLine("Stopping!");
+    //        }
+    //    }
+    //}
 
     public class Startup
     {
@@ -48,6 +50,8 @@ namespace TryKatana
                 Console.WriteLine("Response: " + environment.Response.StatusCode);
             });
 
+            ConfigureWebApi(app);
+
             app.UseHellowWorld();
 
             //app.Use<HelloWorldComponent>();
@@ -57,6 +61,17 @@ namespace TryKatana
             //{
             //    return ctx.Response.WriteAsync("Hello World");
             //});
+        }
+
+        private void ConfigureWebApi(IAppBuilder app)
+        {
+            var config = new HttpConfiguration();
+            config.Routes.MapHttpRoute(
+                "DefaultApi",
+                "api/{controller}/{id}",
+                new { id = RouteParameter.Optional });
+
+            app.UseWebApi(config);
         }
     }
 
