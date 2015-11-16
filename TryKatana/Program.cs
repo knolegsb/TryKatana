@@ -29,13 +29,23 @@ namespace TryKatana
     {
         public void Configuration(IAppBuilder app)
         {
-            app.Use<HelloWorldComponent>();
+            app.UseHellowWorld();
+
+            //app.Use<HelloWorldComponent>();
 
             //app.UseWelcomePage();
             //app.Run(ctx =>
             //{
             //    return ctx.Response.WriteAsync("Hello World");
             //});
+        }
+    }
+
+    public static class AppBuilderExtensions
+    {
+        public static void UseHellowWorld(this IAppBuilder app)
+        {
+            app.Use<HelloWorldComponent>();
         }
     }
 
